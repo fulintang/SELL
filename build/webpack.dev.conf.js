@@ -55,7 +55,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    },before(app) {
+    }, before(app) {
       app.get('/api/seller', (req, res) => {
         res.json({
           errno: 0,
@@ -66,14 +66,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errno: 0,
           data: goods
-        })
+        });
       }),
       app.get('/api/ratings', (req, res) => {
         res.json({
           errno: 0,
           data: ratings
         })
-      })
+      });
     }
   },
   plugins: [
@@ -117,8 +117,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)
