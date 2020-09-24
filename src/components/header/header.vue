@@ -28,7 +28,15 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="auto" />
     </div>
-    <div v-show="detailShow" class="detail"></div>
+    <div v-show="detailShow" class="detail">
+      <!-- 外部层 -->
+      <div class="detail-wrapper clearfix">
+        <!-- 内容层 -->
+        <div class="detail-main"></div>
+      </div>
+      <!-- footer层 -->
+      <div class="detail-close"></div>
+    </div>
   </div>
 </template>
 
