@@ -32,10 +32,10 @@
       <!-- 外部层 -->
       <div class="detail-wrapper clearfix">
         <!-- 内容层 -->
-        <div class="detail-main"></div>
+        <div class="detail-main">{{seller.name}}</div>
       </div>
       <!-- footer层 -->
-      <div class="detail-close"></div>
+      <div class="detail-close icon-close" @click="closeDeatil"></div>
     </div>
   </div>
 </template>
@@ -55,6 +55,9 @@ export default {
   methods: {
     showDetail() {
       this.detailShow = true;
+    },
+    closeDeatil() {
+      this.detailShow = false;
     }
   },
   created() {
@@ -186,5 +189,17 @@ export default {
     height: 100%
     overflow: auto
     background-color: rgba(7, 17, 27, 0.8)
-    filter: blur(10px)
+    // filter: blur(10px)
+    .detail-wrapper
+      min-height: 100%
+      .detail-main
+        margin-top: 64px
+        padding-bottom: 64px
+    .detail-close
+      position: relative
+      width: 32px
+      height: 32px
+      margin: -64px auto 0 auto
+      clear: both
+      font-size: 32px
 </style>
