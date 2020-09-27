@@ -32,7 +32,9 @@
       <!-- 外部层 -->
       <div class="detail-wrapper clearfix">
         <!-- 内容层 -->
-        <div class="detail-main">{{seller.name}}</div>
+        <div class="detail-main">
+          <div class="name">{{seller.name}}</div>
+        </div>
       </div>
       <!-- footer层 -->
       <div class="detail-close icon-close" @click="closeDeatil"></div>
@@ -191,10 +193,16 @@ export default {
     background-color: rgba(7, 17, 27, 0.8)
     // filter: blur(10px)
     .detail-wrapper
+      width: 100%
       min-height: 100%
       .detail-main
         margin-top: 64px
         padding-bottom: 64px
+        .name
+          line-height: 16px
+          text-align: center
+          font-size: 16px
+          font-weight: 700
     .detail-close
       position: relative
       width: 32px
