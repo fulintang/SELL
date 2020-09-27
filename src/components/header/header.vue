@@ -43,6 +43,8 @@
 </template>
 
 <script>
+// import star from './components/star/star.vue';
+
 export default {
   props: {
     seller: {
