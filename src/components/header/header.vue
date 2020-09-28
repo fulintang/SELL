@@ -37,6 +37,12 @@
           <div class="star-wrapper">
             <star :size="48" :score="seller.score" />
           </div>
+          <div class="title">
+            <!-- 这下面的div如果换成span，在某些androad浏览器会出现问题 -->
+            <div class="line"></div>
+            <div class="text">优惠信息</div>
+            <div class="line"></div>
+          </div>
         </div>
       </div>
       <!-- footer层 -->
