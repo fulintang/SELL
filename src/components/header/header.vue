@@ -33,7 +33,10 @@
       <div class="detail-wrapper clearfix">
         <!-- 内容层 -->
         <div class="detail-main">
-          <div class="name">{{seller.name}}</div>
+          <h1 class="name">{{seller.name}}</h1>
+          <div class="star-wrapper">
+            <star :size="48" :score="seller.score" />
+          </div>
         </div>
       </div>
       <!-- footer层 -->
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-// import star from './components/star/star.vue';
+import star from '@/components/star/star.vue';
 
 export default {
   props: {
@@ -66,6 +69,9 @@ export default {
   },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+  },
+  components: {
+    star
   }
 };
 </script>
@@ -205,6 +211,10 @@ export default {
           text-align: center
           font-size: 16px
           font-weight: 700
+        .star-wrapper
+          margin-top: 18px
+          padding: 2px 0
+          text-align: center
     .detail-close
       position: relative
       width: 32px
