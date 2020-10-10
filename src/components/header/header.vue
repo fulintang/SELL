@@ -28,41 +28,43 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="auto" />
     </div>
-    <div v-show="detailShow" class="detail">
-      <!-- 外部层 -->
-      <div class="detail-wrapper clearfix">
-        <!-- 内容层 -->
-        <div class="detail-main">
-          <h1 class="name">{{seller.name}}</h1>
-          <div class="star-wrapper">
-            <star :size="48" :score="seller.score" />
-          </div>
-          <div class="title">
-            <!-- 这下面的div如果换成span，在某些androad浏览器会出现问题 -->
-            <div class="line"></div>
-            <div class="text">优惠信息</div>
-            <div class="line"></div>
-          </div>
-          <ul class="supports" v-if="seller.supports">
-            <li class="support-item" v-for="(item, index) in seller.supports" :key="index">
-              <span class="icon" :class="classMap[seller.supports[index].type]"></span>
-              <span class="text">{{seller.supports[index].description}}</span>
-            </li>
-          </ul>
-          <div class="title">
-            <!-- 这下面的div如果换成span，在某些androad浏览器会出现问题 -->
-            <div class="line"></div>
-            <div class="text">商家公告</div>
-            <div class="line"></div>
-          </div>
-          <div class="bulletin">
-            <p class="content">{{seller.bulletin}}</p>
+    <transition name="fade">
+      <div v-show="detailShow" class="detail">
+        <!-- 外部层 -->
+        <div class="detail-wrapper clearfix">
+          <!-- 内容层 -->
+          <div class="detail-main">
+            <h1 class="name">{{seller.name}}</h1>
+            <div class="star-wrapper">
+              <star :size="48" :score="seller.score" />
+            </div>
+            <div class="title">
+              <!-- 这下面的div如果换成span，在某些androad浏览器会出现问题 -->
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+            <ul class="supports" v-if="seller.supports">
+              <li class="support-item" v-for="(item, index) in seller.supports" :key="index">
+                <span class="icon" :class="classMap[seller.supports[index].type]"></span>
+                <span class="text">{{seller.supports[index].description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <!-- 这下面的div如果换成span，在某些androad浏览器会出现问题 -->
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+            <div class="bulletin">
+              <p class="content">{{seller.bulletin}}</p>
+            </div>
           </div>
         </div>
+        <!-- footer层 -->
+        <div class="detail-close icon-close" @click="closeDeatil"></div>
       </div>
-      <!-- footer层 -->
-      <div class="detail-close icon-close" @click="closeDeatil"></div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -219,8 +221,14 @@ export default {
     width: 100%
     height: 100%
     overflow: auto
-    background-color: rgba(7, 17, 27, 0.8)
     // filter: blur(10px)
+    transition: all 0.5s
+    &.fade-enter-active, &.fade-leave-active
+      opacity: 1
+      background-color: rgba(7, 17, 27, 0.8)
+    &.fade-enter, &.fade-leave-to
+      opacity: 0
+      background-color: rgba(7, 17, 27, 0)
     .detail-wrapper
       width: 100%
       min-height: 100%
