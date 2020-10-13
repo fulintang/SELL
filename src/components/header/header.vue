@@ -223,12 +223,11 @@ export default {
     overflow: auto
     // filter: blur(10px)
     transition: all 0.5s
+    background-color: rgba(7, 17, 27, 0.8)
     &.fade-enter-active, &.fade-leave-active
       opacity: 1
-      background-color: rgba(7, 17, 27, 0.8)
     &.fade-enter, &.fade-leave-to
       opacity: 0
-      background-color: rgba(7, 17, 27, 0)
     .detail-wrapper
       width: 100%
       min-height: 100%
