@@ -224,6 +224,7 @@ export default {
     // filter: blur(10px)
     transition: all 0.5s
     background-color: rgba(7, 17, 27, 0.8)
+    backdrop-filter: blur(10px)
     &.fade-enter-active, &.fade-leave-active
       opacity: 1
     &.fade-enter, &.fade-leave-to
