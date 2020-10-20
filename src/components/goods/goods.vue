@@ -10,7 +10,32 @@
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper"></div>
+    <div class="foods-wrapper">
+      <ul>
+        <li class="foods-list" v-for="(item, index) in goods" :key="index">
+          <h1 class="title">{{item.name}}</h1>
+          <ul>
+            <li class="food-item" v-for="(food, index) in item.foods" :key="index">
+              <div class="icon">
+                <img :src="food.icon" />
+              </div>
+              <div class="content">
+                <h2 class="name">{{food.name}}</h2>
+                <p class="desc">{{food.description}}</p>
+                <div class="extra">
+                  <span>月售{{food.sellCount}}份</span>
+                  <span>好评率{{food.rating}}%</span>
+                </div>
+                <div class="price">
+                  <span>￥{{food.price}}</span>
+                  <span>好评率{{food.rating}}%</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -44,7 +69,6 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus">
 @import '../../common/stylus/mixin.styl'
 .goods
-  background-color: red
   display: flex
   overflow: hidden
   position: absolute
@@ -87,5 +111,16 @@ export default {
             bg-image('special_3')
   .foods-wrapper
     flex: 1
-    background-color: blue
+    background-color: red
+    overflow scroll
+    .foods-list
+      .title
+        // width: 100%
+        padding: 0 14px
+        height: 36px
+        background-color: #f3f5f7
+        font-size: 12px
+        line-height: 36px
+        color rgb(147, 153, 159)
+        border-left 2px solid #d9dde1
 </style>
