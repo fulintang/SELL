@@ -3,7 +3,7 @@
     <div class="menu-wrapper">
       <ul>
         <li v-for="(item,index) in goods" :key="index" class="menu-item">
-          <span class="text border-1px">
+          <span class="text border-1px-bottom">
             <span class="icon" v-show="item.type>0" :class="classMap[item.type]"></span>
             {{item.name}}
           </span>
@@ -15,9 +15,13 @@
         <li class="foods-list" v-for="(item, index) in goods" :key="index">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li class="food-item" v-for="(food, index) in item.foods" :key="index">
+            <li
+              class="food-item border-1px-bottom"
+              v-for="(food, index) in item.foods"
+              :key="index"
+            >
               <div class="icon">
-                <img :src="food.icon" />
+                <img class="icon-img" :src="food.icon" />
               </div>
               <div class="content">
                 <h2 class="name">{{food.name}}</h2>
@@ -89,7 +93,7 @@ export default {
         display: table-cell
         width: 56px
         vertical-align: middle
-        border-1px(rgba(7, 17, 27, 0.1))
+        border-1px-bottom(rgba(7, 17, 27, 0.1))
         font-size: 12px
         .icon
           display: inline-block
@@ -111,16 +115,43 @@ export default {
             bg-image('special_3')
   .foods-wrapper
     flex: 1
-    background-color: red
-    overflow scroll
+    overflow: scroll
     .foods-list
       .title
-        // width: 100%
-        padding: 0 14px
+        padding-left: 14px
         height: 36px
         background-color: #f3f5f7
         font-size: 12px
         line-height: 36px
-        color rgb(147, 153, 159)
-        border-left 2px solid #d9dde1
+        color: rgb(147, 153, 159)
+        // border-2px-left(#d9dde1)
+        border-left: 2px solid #d9dde1
+      .food-item
+        display: flex
+        margin: 18px
+        padding-bottom: 18px
+        border-1px-bottom(rgba(7, 17, 27, 0.1))
+        &:last-child
+          margin-bottom: 0
+          &:after
+            display: none
+        .icon
+          flex: 0 0 57px
+          height: 57px
+          // height 57px
+          margin-right: 10px
+          .icon-img
+            width: 100%
+            // height: 100%
+        .content
+          .name
+            font-size: 14px
+            color: rgb(7, 17, 27)
+          .desc, .extra
+            font-size: 10px
+            color: rgb(147, 153, 159)
+          .extra
+            span
+              &:first
+                margin-right: 12px
 </style>
