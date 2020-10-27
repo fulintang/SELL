@@ -115,7 +115,7 @@ export default {
             bg-image('special_3')
   .foods-wrapper
     flex: 1
-    overflow: scroll
+    overflow-y: scroll
     .foods-list
       .title
         padding-left: 14px
