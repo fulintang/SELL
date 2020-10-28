@@ -31,8 +31,8 @@
                   <span>好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
-                  <span>￥{{food.price}}</span>
-                  <span>好评率{{food.rating}}%</span>
+                  <span class="now">￥{{food.price}}</span>
+                  <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
               </div>
             </li>
@@ -144,14 +144,32 @@ export default {
             width: 100%
             // height: 100%
         .content
+          flex: 1
           .name
+            margin: 2px 0 8px 0
+            height: 14px
+            line-height: 14px
             font-size: 14px
             color: rgb(7, 17, 27)
           .desc, .extra
             font-size: 10px
+            line-height: 10px
             color: rgb(147, 153, 159)
+          .desc
+            margin-bottom: 8px
           .extra
             span
               &:first
                 margin-right: 12px
+          .price
+            font-weight: 700
+            line-height: 24px
+            .now
+              margin-right: 8px
+              font-size: 14px
+              color: rgb(240, 20, 20)
+            .old
+              text-decoration: line-through
+              font-size: 10px
+              color: rgb(147, 153, 159)
 </style>
