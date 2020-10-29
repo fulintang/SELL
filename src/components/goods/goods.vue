@@ -2,7 +2,12 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li v-for="(item, index) in goods" :key="index" class="menu-item">
+        <li
+          v-for="(item, index) in goods"
+          :key="index"
+          class="menu-item"
+          :class="{ current: currentIndex === index }"
+        >
           <span class="text border-1px-bottom">
             <span
               class="icon"
@@ -16,7 +21,11 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li class="foods-list" v-for="(item, index) in goods" :key="index">
+        <li
+          class="foods-list food-list-hook"
+          v-for="(item, index) in goods"
+          :key="index"
+        >
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li
@@ -62,8 +71,23 @@ export default {
   },
   data() {
     return {
-      goods: []
+      goods: [],
+      listHeight: [],
+      scrollY: 0
     };
+  },
+  computed: {
+    currentIndex() {
+      for (let i = 0, len = this.listHeight.length; i < len; i++) {
+        let height1 = this.listHeight[i];
+        let height2 = this.listHeight[i + 1];
+        // 同时需要判断数组下标越界问题
+        if (!height2 || (this.scrollY > height1 && this.scrollY < height2)) {
+          return i;
+        }
+      }
+      return 0;
+    }
   },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -74,6 +98,7 @@ export default {
         // 该方法才能正确计算menu的高度
         this.$nextTick(() => {
           this._initScroll();
+          this._calculateHeight();
         });
       }
     });
@@ -81,7 +106,26 @@ export default {
   methods: {
     _initScroll() {
       this.menuScroll = new BSscroll(this.$refs.menuWrapper, {});
-      this.foodsScroll = new BSscroll(this.$refs.foodsWrapper, {});
+      // 开启实时监听滚动位置
+      this.foodsScroll = new BSscroll(this.$refs.foodsWrapper, {
+        probeType: 3
+      });
+      // 实时监听位置
+      this.foodsScroll.on('scroll', (pos) => {
+        this.scrollY = -Math.round(pos.y);
+      });
+    },
+    _calculateHeight() {
+      let foodList = this.$refs.foodsWrapper.getElementsByClassName(
+        'food-list-hook'
+      );
+      let height = 0;
+      this.listHeight.push(height);
+      for (let i = 0, len = foodList.length; i < len; i++) {
+        let item = foodList[i];
+        height += item.clientHeight;
+        this.listHeight.push(height);
+      }
     }
   }
 };
@@ -155,7 +199,6 @@ export default {
         .icon
           flex: 0 0 57px
           height: 57px
-          // height 57px
           margin-right: 10px
           .icon-img
             width: 100%
