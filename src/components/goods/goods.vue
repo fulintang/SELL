@@ -1,19 +1,23 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li v-for="(item,index) in goods" :key="index" class="menu-item">
+        <li v-for="(item, index) in goods" :key="index" class="menu-item">
           <span class="text border-1px-bottom">
-            <span class="icon" v-show="item.type>0" :class="classMap[item.type]"></span>
-            {{item.name}}
+            <span
+              class="icon"
+              v-show="item.type > 0"
+              :class="classMap[item.type]"
+            ></span>
+            {{ item.name }}
           </span>
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
         <li class="foods-list" v-for="(item, index) in goods" :key="index">
-          <h1 class="title">{{item.name}}</h1>
+          <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li
               class="food-item border-1px-bottom"
@@ -24,15 +28,17 @@
                 <img class="icon-img" :src="food.icon" />
               </div>
               <div class="content">
-                <h2 class="name">{{food.name}}</h2>
-                <p class="desc">{{food.description}}</p>
+                <h2 class="name">{{ food.name }}</h2>
+                <p class="desc">{{ food.description }}</p>
                 <div class="extra">
-                  <span>月售{{food.sellCount}}份</span>
-                  <span>好评率{{food.rating}}%</span>
+                  <span>月售{{ food.sellCount }}份</span
+                  ><span>好评率{{ food.rating }}%</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥{{food.price}}</span>
-                  <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
+                  <span class="now">￥{{ food.price }}</span
+                  ><span class="old" v-if="food.oldPrice"
+                    >￥{{ food.oldPrice }}</span
+                  >
                 </div>
               </div>
             </li>
@@ -44,6 +50,7 @@
 </template>
 
 <script>
+import BSscroll from 'better-scroll';
 import goodsApi from '@/api/goods.js';
 const ERR_OK = 0;
 
@@ -60,12 +67,22 @@ export default {
   },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-    goodsApi.getlist().then(res => {
+    goodsApi.getlist().then((res) => {
       if (res.data.errno === ERR_OK) {
         this.goods = res.data.data;
         console.log(this.goods);
+        // 该方法才能正确计算menu的高度
+        this.$nextTick(() => {
+          this._initScroll();
+        });
       }
     });
+  },
+  methods: {
+    _initScroll() {
+      this.menuScroll = new BSscroll(this.$refs.menuWrapper, {});
+      this.foodsScroll = new BSscroll(this.$refs.foodsWrapper, {});
+    }
   }
 };
 </script>
@@ -115,7 +132,7 @@ export default {
             bg-image('special_3')
   .foods-wrapper
     flex: 1
-    overflow-y: scroll
+    // overflow-y: scroll
     .foods-list
       .title
         padding-left: 14px
@@ -156,11 +173,11 @@ export default {
             line-height: 10px
             color: rgb(147, 153, 159)
           .desc
+            line-height: 12px
             margin-bottom: 8px
           .extra
-            span
-              &:first
-                margin-right: 12px
+            span:first-child
+              margin-right: 12px
           .price
             font-weight: 700
             line-height: 24px
