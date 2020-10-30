@@ -9,11 +9,7 @@
           :class="{ current: currentIndex === index }"
         >
           <span class="text border-1px-bottom">
-            <span
-              class="icon"
-              v-show="item.type > 0"
-              :class="classMap[item.type]"
-            ></span>
+            <span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>
             {{ item.name }}
           </span>
         </li>
@@ -21,11 +17,7 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li
-          class="foods-list food-list-hook"
-          v-for="(item, index) in goods"
-          :key="index"
-        >
+        <li class="foods-list food-list-hook" v-for="(item, index) in goods" :key="index">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li
@@ -40,14 +32,12 @@
                 <h2 class="name">{{ food.name }}</h2>
                 <p class="desc">{{ food.description }}</p>
                 <div class="extra">
-                  <span>月售{{ food.sellCount }}份</span
-                  ><span>好评率{{ food.rating }}%</span>
+                  <span>月售{{ food.sellCount }}份</span>
+                  <span>好评率{{ food.rating }}%</span>
                 </div>
                 <div class="price">
-                  <span class="now">￥{{ food.price }}</span
-                  ><span class="old" v-if="food.oldPrice"
-                    >￥{{ food.oldPrice }}</span
-                  >
+                  <span class="now">￥{{ food.price }}</span>
+                  <span class="old" v-if="food.oldPrice">￥{{ food.oldPrice }}</span>
                 </div>
               </div>
             </li>
@@ -82,7 +72,7 @@ export default {
         let height1 = this.listHeight[i];
         let height2 = this.listHeight[i + 1];
         // 同时需要判断数组下标越界问题
-        if (!height2 || (this.scrollY > height1 && this.scrollY < height2)) {
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
           return i;
         }
       }
@@ -91,7 +81,7 @@ export default {
   },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-    goodsApi.getlist().then((res) => {
+    goodsApi.getlist().then(res => {
       if (res.data.errno === ERR_OK) {
         this.goods = res.data.data;
         console.log(this.goods);
@@ -111,7 +101,7 @@ export default {
         probeType: 3
       });
       // 实时监听位置
-      this.foodsScroll.on('scroll', (pos) => {
+      this.foodsScroll.on('scroll', pos => {
         this.scrollY = -Math.round(pos.y);
       });
     },
@@ -150,6 +140,18 @@ export default {
       width: 56px
       min-height: 54px
       line-height: 14px
+      &.current
+        color: red
+      // position relative
+      // z-index 10
+      // margin-top: -1px
+      // background： #ffffff
+      // font-weight: 700
+      // .text
+      // &:last-child
+      // margin-bottom: 0
+      // &:after
+      // display: none
       .text
         display: table-cell
         width: 56px
