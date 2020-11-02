@@ -7,11 +7,14 @@
           :key="index"
           class="menu-item"
           :class="{ current: currentIndex === index }"
+          @click="selectMenu(index)"
         >
-          <span class="text border-1px-bottom">
-            <span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>
-            {{ item.name }}
-          </span>
+          <div class="menu-item-inner">
+            <span class="text border-1px-bottom">
+              <span class="icon" v-show="item.type > 0" :class="classMap[item.type]"></span>
+              {{ item.name }}
+            </span>
+          </div>
         </li>
       </ul>
     </div>
@@ -85,7 +88,7 @@ export default {
       if (res.data.errno === ERR_OK) {
         this.goods = res.data.data;
         console.log(this.goods);
-        // 该方法才能正确计算menu的高度
+        // 该方法为vue渲染完成后的方法
         this.$nextTick(() => {
           this._initScroll();
           this._calculateHeight();
@@ -94,8 +97,15 @@ export default {
     });
   },
   methods: {
+    selectMenu(index) {
+      let foodList = this.$refs.foodsWrapper.getElementsByClassName(
+        'food-list-hook'
+      );
+      let el = foodList[index];
+      this.foodsScroll.scrollToElement(el, 300);
+    },
     _initScroll() {
-      this.menuScroll = new BSscroll(this.$refs.menuWrapper, {});
+      this.menuScroll = new BSscroll(this.$refs.menuWrapper, { click: true });
       // 开启实时监听滚动位置
       this.foodsScroll = new BSscroll(this.$refs.foodsWrapper, {
         probeType: 3
@@ -135,26 +145,27 @@ export default {
     width: 80px
     background-color: #f3f5f7
     .menu-item
-      display: table
-      margin: auto
-      width: 56px
+      width: 80px
       min-height: 54px
       line-height: 14px
       &.current
-        color: red
-      // position relative
-      // z-index 10
-      // margin-top: -1px
-      // background： #ffffff
-      // font-weight: 700
-      // .text
-      // &:last-child
-      // margin-bottom: 0
-      // &:after
-      // display: none
+        position: relative
+        z-index: 10
+        margin-top: -1px
+        background: #fff
+        font-weight: 700
+        .text
+          &:after
+            border-top: 0px
+      .menu-item-inner
+        display: table
+        margin: auto
+        min-height: 54px
+        line-height: 14px
       .text
         display: table-cell
         width: 56px
+        margin: auto
         vertical-align: middle
         border-1px-bottom(rgba(7, 17, 27, 0.1))
         font-size: 12px
