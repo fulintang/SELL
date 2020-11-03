@@ -48,12 +48,15 @@
         </li>
       </ul>
     </div>
+    <shopcart />
   </div>
 </template>
 
 <script>
 import BSscroll from 'better-scroll';
 import goodsApi from '@/api/goods.js';
+import shopcart from '@/components/shopcart/shopcart.vue';
+
 const ERR_OK = 0;
 
 export default {
@@ -127,6 +130,9 @@ export default {
         this.listHeight.push(height);
       }
     }
+  },
+  components: {
+    shopcart
   }
 };
 </script>
