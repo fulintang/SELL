@@ -8,6 +8,7 @@ Vue.use(Router);
 
 export default new Router({
   linkActiveClass: 'active', // 指定被激活的router为active
+  mode: 'history',
   routes: [
     {
       path: '/',
