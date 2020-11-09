@@ -6,21 +6,61 @@
           <div class="logo">
             <i class="icon-shopping_cart"></i>
           </div>
+          <div class="num" v-show="totalCount">{{ totalCount }}</div>
         </div>
-        <div class="price">￥{{price}}</div>
-        <div class="desc">另需配送费￥0</div>
+        <div class="price">￥{{ totalPrice }}</div>
+        <div class="desc">另需配送费￥{{ deliveryPrice }}元</div>
       </div>
-      <div class="content-right"></div>
+      <div class="content-right">
+        <div class="pay">￥{{ minPrice }}起送</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    selectFoods: {
+      type: Array,
+      default() {
+        return [
+          {
+            price: 10,
+            count: 1
+          }
+        ];
+      }
+    },
+    deliveryPrice: {
+      type: Number,
+      default: 0
+    },
+    minPrice: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       price: 0
     };
+  },
+  computed: {
+    totalPrice() {
+      let total = 0;
+      this.selectFoods.forEach((food) => {
+        total += food.price * food.count;
+      });
+      return total;
+    },
+    totalCount() {
+      let count = 0;
+      this.selectFoods.forEach((food) => {
+        count += food.count;
+      });
+      return count;
+    }
   }
 };
 </script>
@@ -37,6 +77,7 @@ export default {
     display: flex
     background: #141d27
     font-size: 0
+    color: rgba(255, 255, 255, 0.4)
     .content-left
       flex: 1
       .logo-wrapper
@@ -61,6 +102,20 @@ export default {
             line-height: 44px
             font-size: 24px
             color: #80858a
+        .num
+          position: absolute
+          top: 0
+          right: 0
+          width: 24px
+          height: 16px
+          line-height: 16px
+          text-align: center
+          border-radius: 16px
+          font-size: 9px
+          font-weight: 700
+          color: #fff
+          background: rgb(240, 20, 20)
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4)
       .price
         display: inline-block
         vertical-align: top
@@ -69,17 +124,24 @@ export default {
         padding-right: 12px
         box-sizing: border-box
         border-right: 1px solid rgba(255, 255, 255, 0.4)
-        color: rgba(255, 255, 255, 0.4)
+        // color: rgba(255, 255, 255, 0.4)
         font-size: 16px
         font-weight: 700
       .desc
         display: inline-block
         vertical-align: top
+        margin: 12px 0 0 12px
         line-height: 24px
-        color: rgba(255, 255, 255, 0.4)
-        font-size: 16px
+        // color: rgba(255, 255, 255, 0.4)
+        font-size: 10px
         font-weight: 700
     .content-right
       flex: 0 0 105px
-      background-color: blue
+      .pay
+        height: 48px
+        line-height: 48px
+        text-align: center
+        font-size: 12px
+        font-weight: 700
+        background: #2b333b
 </style>
