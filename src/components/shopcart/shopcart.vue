@@ -3,16 +3,16 @@
     <div class="content">
       <div class="content-left">
         <div class="logo-wrapper">
-          <div class="logo">
-            <i class="icon-shopping_cart"></i>
+          <div class="logo" :class="{'highlight': totalCount>0}">
+            <i class="icon-shopping_cart" :class="{'highlight': totalCount>0}"></i>
           </div>
           <div class="num" v-show="totalCount">{{ totalCount }}</div>
         </div>
-        <div class="price">￥{{ totalPrice }}</div>
+        <div class="price" :class="{'highlight': totalPrice>0}">￥{{ totalPrice }}</div>
         <div class="desc">另需配送费￥{{ deliveryPrice }}</div>
       </div>
       <div class="content-right">
-        <div class="pay" v-if="minPrice > totalPrice">￥{{ minPrice }}起送</div>
+        <div class="pay" :class="payClass">{{payDesc}}</div>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@ export default {
         return [
           {
             price: 10,
-            count: 1
+            count: 2
           }
         ];
       }
@@ -49,17 +49,35 @@ export default {
   computed: {
     totalPrice() {
       let total = 0;
-      this.selectFoods.forEach((food) => {
+      this.selectFoods.forEach(food => {
         total += food.price * food.count;
       });
       return total;
     },
     totalCount() {
+      // 以选择的总数
       let count = 0;
-      this.selectFoods.forEach((food) => {
+      this.selectFoods.forEach(food => {
         count += food.count;
       });
       return count;
+    },
+    payDesc() {
+      if (this.totalPrice === 0) {
+        return `￥${this.minPrice}起送`;
+      } else if (this.totalPrice < this.minPrice) {
+        let diff = this.minPrice - this.totalPrice;
+        return `还差￥${diff}`;
+      } else if (this.totalPrice >= this.minPrice) {
+        return '去结算';
+      }
+    },
+    payClass() {
+      if (this.totalPrice < this.minPrice) {
+        return 'not-enough';
+      } else if (this.totalPrice >= this.minPrice) {
+        return 'enough';
+      }
     }
   }
 };
@@ -98,10 +116,14 @@ export default {
           border-radius: 50%
           background: #2b343c
           text-align: center
+          &.highlight
+            background: rgb(0, 160, 220)
           .icon-shopping_cart
             line-height: 44px
             font-size: 24px
             color: #80858a
+            &.highlight
+              color: #fff
         .num
           position: absolute
           top: 0
@@ -126,6 +148,8 @@ export default {
         border-right: 1px solid rgba(255, 255, 255, 0.4)
         font-size: 16px
         font-weight: 700
+        &.highlight
+          color: white
       .desc
         display: inline-block
         vertical-align: top
@@ -142,4 +166,9 @@ export default {
         font-size: 12px
         font-weight: 700
         background: #2b333b
+        &.not-enough
+          background: #2b333b
+        &.enough
+          background: #00b43c
+          color: #fff
 </style>
