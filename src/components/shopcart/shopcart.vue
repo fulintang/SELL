@@ -9,10 +9,10 @@
           <div class="num" v-show="totalCount">{{ totalCount }}</div>
         </div>
         <div class="price">￥{{ totalPrice }}</div>
-        <div class="desc">另需配送费￥{{ deliveryPrice }}元</div>
+        <div class="desc">另需配送费￥{{ deliveryPrice }}</div>
       </div>
       <div class="content-right">
-        <div class="pay">￥{{ minPrice }}起送</div>
+        <div class="pay" v-if="minPrice > totalPrice">￥{{ minPrice }}起送</div>
       </div>
     </div>
   </div>
@@ -124,7 +124,6 @@ export default {
         padding-right: 12px
         box-sizing: border-box
         border-right: 1px solid rgba(255, 255, 255, 0.4)
-        // color: rgba(255, 255, 255, 0.4)
         font-size: 16px
         font-weight: 700
       .desc
@@ -132,7 +131,6 @@ export default {
         vertical-align: top
         margin: 12px 0 0 12px
         line-height: 24px
-        // color: rgba(255, 255, 255, 0.4)
         font-size: 10px
         font-weight: 700
     .content-right
