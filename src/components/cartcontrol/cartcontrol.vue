@@ -21,7 +21,7 @@ export default {
   methods: {
     addCart() {
       if (!this.food.count) {
-        // 监测不到
+        // 按照注释的写法是无法监听本来没有的属性的，所以需要使用set属性
         // this.food.count = 1;
         this.$set(this.food, 'count', 1);
       } else {
