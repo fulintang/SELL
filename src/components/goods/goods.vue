@@ -115,6 +115,7 @@ export default {
       this.menuScroll = new BSscroll(this.$refs.menuWrapper, { click: true });
       // 开启实时监听滚动位置
       this.foodsScroll = new BSscroll(this.$refs.foodsWrapper, {
+        click: true,
         probeType: 3
       });
       // 实时监听位置
@@ -257,7 +258,7 @@ export default {
               font-size: 10px
               color: rgb(147, 153, 159)
           .cartcontrol-wrapper
-            position absolute
+            position: absolute
             right: 0
             bottom: 12px
 </style>
