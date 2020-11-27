@@ -26,8 +26,8 @@ export default {
       default() {
         return [
           {
-            price: 10,
-            count: 2
+            price: 0,
+            count: 0
           }
         ];
       }
@@ -43,7 +43,27 @@ export default {
   },
   data() {
     return {
-      price: 0
+      balls: [
+        {
+          // 每一个成员都用来维护当前小球的状态,初始状态都是隐藏的
+          show: false
+        },
+        {
+          show: false
+        },
+        {
+          show: false
+        },
+        {
+          show: false
+        },
+        {
+          show: false
+        }
+      ],
+      // 添加一个变量，用来存贮已经下落的小球
+      dropBalls: [],
+      fold: true // 购物车详情列表默认折叠
     };
   },
   computed: {
@@ -171,4 +191,17 @@ export default {
         &.enough
           background: #00b43c
           color: #fff
+    .ball-container
+      position: fixed
+      left: 32px
+      bottom: 22px
+      z-index: 200
+      .inner
+        width: 15px
+        height: 15px
+        border-radius: 50%
+        background-color: #00A0DC
+        transition: all 1s linear
+        &.drop-enter-active
+            transition: all 1s cubic-bezier(0.49, -0.29, 0.75, 0.41)
 </style>
