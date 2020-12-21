@@ -28,6 +28,8 @@ export default {
       } else {
         this.food.count++;
       }
+      // 向父组件触发一个自定义的cart-add事件，并将事件对象传递给父组件
+      this.$emit('cart-add', event.target);
     },
     decreaseCart() {
       if (this.food.count > 0) this.food.count--;

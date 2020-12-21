@@ -43,7 +43,7 @@
                   <span class="old" v-if="food.oldPrice">￥{{ food.oldPrice }}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  <cartcontrol :food="food" />
+                  <cartcontrol :food="food" @cart-add="handlecartAdd" />
                 </div>
               </div>
             </li>
@@ -51,7 +51,12 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" />
+    <shopcart
+      ref="shopcart"
+      :select-foods="selectFoods"
+      :delivery-price="seller.deliveryPrice"
+      :min-price="seller.minPrice"
+    />
   </div>
 </template>
 
@@ -145,6 +150,17 @@ export default {
         height += item.clientHeight;
         this.listHeight.push(height);
       }
+    },
+    _drop(target) {
+      // 使用nextTick优化动画体验
+      this.$nextTick(() => {
+        // 通过$ref属性访问shopcar子组件的drop方法
+        this.$refs.shopcart.drop(target);
+      });
+    },
+    // 点击加号按钮触发事件
+    handlecartAdd(target) {
+      this._drop(target); // 调用_drop方法
     }
   },
   components: {

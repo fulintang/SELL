@@ -15,6 +15,22 @@
         <div class="pay" :class="payClass">{{payDesc}}</div>
       </div>
     </div>
+    <div class="ball-container">
+      <div v-for="(ball,index) in balls" :key="index">
+        <transition
+          @before-enter="handleBeforeEnter"
+          @enter="handleEnter"
+          @after-enter="handleAfterEnter"
+          name="drop"
+        >
+          <div class="ball" v-show="ball.show">
+            <!--外层盒子-->
+            <div class="inner inner-hook"></div>
+            <!--内层盒子-->
+          </div>
+        </transition>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,6 +113,72 @@ export default {
         return 'not-enough';
       } else if (this.totalPrice >= this.minPrice) {
         return 'enough';
+      }
+    }
+  },
+  methods: {
+    drop(el) {
+      console.log(this.dropBalls);
+      for (let i = 0; i < this.balls.length; i++) {
+        let ball = this.balls[i];
+        if (!ball.show) {
+          // 当小球显示状态为隐藏时
+          ball.show = true;
+          ball.el = el; // 将cartControl传过来的对象挂载到ball的el属性上
+          this.dropBalls.push(ball);
+          return;
+        }
+      }
+    },
+    handleBeforeEnter: function(el) {
+      // beforeEnter在动画运行之前把小球移到到 ‘+’ 号位置，
+      // 从左下角移动到右上，所以x是正数，y是负数
+      let count = this.balls.length;
+      while (count--) {
+        let ball = this.balls[count];
+        if (ball.show) {
+          //  getBoundingClientRect()获取小球相对于视窗的位置，屏幕左上角坐标为0，0
+          let rect = ball.el.getBoundingClientRect();
+          // 小球x方向位移= 小球距离屏幕左侧的距离-外层盒子距离水平的距离
+          let x = rect.left - 32;
+          // 负数，因为是从左上角向下
+          let y = -(window.innerHeight - rect.top - 22);
+          el.style.display = '';
+          el.style.webkitTransform = `translate3d(0,${y}px,0)`;
+          el.style.transform = `translate3d(0,${y}px,0)`;
+          // 获取内层盒子
+          let inner = el.getElementsByClassName('inner-hook')[0];
+          // 设置内层盒子，即小球水平方向的距离
+          inner.style.webkitTransform = `translate3d(${x}px,0,0)`;
+          inner.style.transform = `translate3d(${x}px,0,0)`;
+        }
+      }
+    },
+    // enter
+    handleEnter: function(el, done) {
+      /* eslint-disable no-unused-vars */
+      // 触发浏览器重绘
+      let rf = el.offsetHeight;
+      this.$nextTick(() => {
+        el.style.webkitTransform = 'translate3d(0, 0, 0)';
+        el.style.transform = 'translate3d(0, 0, 0)';
+        let inner = el.getElementsByClassName('inner-hook')[0];
+        inner.style.webkitTransform = 'translate3d(0, 0, 0)';
+        inner.style.transform = 'translate3d(0, 0, 0)';
+        // Vue为了知道过渡的完成，必须设置相应的事件监听器。
+        // 如果没有这一句那将不会执行handleAfterEnter
+        el.addEventListener('transitionend', done);
+      });
+    },
+    // AfterEnter
+    handleAfterEnter: function(el) {
+      // 完成一次动画就删除一个dropBalls的小球
+      let ball = this.dropBalls.shift();
+      if (ball) {
+        ball.show = false;
+        // 如果没有这一句，小球到达终点后过一小段时间后才消失
+        // 具体原因也是搞不清楚，上面也已经false掉了
+        el.style.display = 'none';
       }
     }
   }
@@ -203,5 +285,5 @@ export default {
         background-color: #00A0DC
         transition: all 1s linear
         &.drop-enter-active
-            transition: all 1s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+          transition: all 1s cubic-bezier(0.49, -0.29, 0.75, 0.41)
 </style>
