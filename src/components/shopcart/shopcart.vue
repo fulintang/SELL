@@ -286,4 +286,18 @@ export default {
         transition: all 1s linear
         &.drop-enter-active
           transition: all 1s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+  .ball-container
+    .ball
+      position: fixed
+      left: 32px
+      bottom: 22px
+      z-index: 999
+      &.drop-enter-active, &.drop-leave-active
+        transition: all 0.8s cubic-bezier(0.49, -0.49, 0.75, 0.41)
+        .inner
+          width: 16px
+          height: 16px
+          border-radius: 50%
+          background: rgb(0, 160, 220)
+          transition: all 0.8s
 </style>
