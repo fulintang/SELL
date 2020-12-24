@@ -20,7 +20,6 @@ export default {
   created() {},
   methods: {
     addCart() {
-      console.log(1);
       if (!this.food.count) {
         // 按照注释的写法是无法监听本来没有的属性的，所以需要使用set属性
         // this.food.count = 1;

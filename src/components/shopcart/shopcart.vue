@@ -118,7 +118,6 @@ export default {
   },
   methods: {
     drop(el) {
-      console.log(this.dropBalls);
       for (let i = 0; i < this.balls.length; i++) {
         let ball = this.balls[i];
         if (!ball.show) {
@@ -273,19 +272,6 @@ export default {
         &.enough
           background: #00b43c
           color: #fff
-    .ball-container
-      position: fixed
-      left: 32px
-      bottom: 22px
-      z-index: 200
-      .inner
-        width: 15px
-        height: 15px
-        border-radius: 50%
-        background-color: #00A0DC
-        transition: all 1s linear
-        &.drop-enter-active
-          transition: all 1s cubic-bezier(0.49, -0.29, 0.75, 0.41)
   .ball-container
     .ball
       position: fixed

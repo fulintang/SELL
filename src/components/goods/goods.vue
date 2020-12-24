@@ -110,7 +110,6 @@ export default {
     goodsApi.getlist().then(res => {
       if (res.data.errno === ERR_OK) {
         this.goods = res.data.data;
-        console.log(this.goods);
         // 该方法为vue渲染完成后的方法
         this.$nextTick(() => {
           this._initScroll();
